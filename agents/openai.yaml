@@ -1,0 +1,3 @@
+display_name: Agent Project Continuity
+short_description: Bootstrap, repair, extend, migrate, or compact durable agent project memory.
+default_prompt: Create, repair, extend, migrate, or compact the project continuity docs for this repository so future agents can resume work across sessions with clear tasks, lifecycle state, and concise handoffs.
