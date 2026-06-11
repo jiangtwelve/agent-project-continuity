@@ -10,6 +10,7 @@ Use these templates together with the focused references in this folder. In part
 
 - Minimal file set
 - Agent instruction entrypoints: `AGENTS.md`, `CLAUDE.md`
+- **Lightweight state: `STATE.md`** (first file a new agent reads)
 - Core docs: product, architecture, page map, roadmap, release, UI, API
 - Work tracking: tasks index, task file, dev log, handoff
 - Decisions and API examples
@@ -20,6 +21,7 @@ Use these templates together with the focused references in this folder. In part
 AGENTS.md
 CLAUDE.md (when Claude Code is expected)
 docs/
+├── STATE.md                  # Lightweight state snapshot (read first)
 ├── product.md
 ├── architecture.md
 ├── page-map.md
@@ -37,23 +39,68 @@ docs/
     └── 001-example.md
 ```
 
+## docs/STATE.md
+
+The first file a new agent reads. Must be under 40 lines, structured, and sufficient to answer "where am I, what am I doing, what's next".
+
+```markdown
+---
+updated: YYYY-MM-DD
+phase: planning | development | testing
+step: 1
+step_name: product_document | tech_stack | page_style | frontend_dev | mock_data | preliminary_acceptance | backend_dev | integration | full_testing
+current_task: ""
+current_task_file: ""
+current_release: RELEASE-001
+next_action: continue_implementation
+blocked: false
+blocker: ""
+---
+
+# Project State
+
+## Current Phase
+- Phase: planning / development / testing
+- Step: N — step name
+- Release: RELEASE-xxx
+
+## Current Task
+- TASK-xxx: title
+- Status: current / blocked
+- Next: exact next action in plain language
+
+## Key Decisions
+- Product: one-line MVP summary
+- Tech: frontend + backend + database
+- Design: style direction (if confirmed)
+
+## Blockers
+- None / description + unblock action
+
+## Recent Completions
+- TASK-xxx: title (done)
+```
+
+Rules:
+- Update after every task status change, phase transition, user confirmation, or session end.
+- Keep under 40 lines. No prose paragraphs.
+- If this file is fresh, agents do not need to read handoff.md or tasks.md to orient.
+- `step` values: 1=product_document, 2=tech_stack, 3=page_style, 4=frontend_dev, 5=mock_data, 6=preliminary_acceptance, 7=backend_dev, 8=integration, 9=full_testing
+- STATE.md and handoff.md frontmatter must agree on `current_task`, `next_action`, `blocked`, and acceptance state. Update them together; if they conflict, treat the most recently updated file as the state to resolve, then repair both.
+- `current_task_file` must hold the exact path (e.g. `docs/tasks/TASK-003-inventory-list.md`) so agents never guess task filenames.
+
 ## AGENTS.md
 
 ```markdown
 # Agent Instructions
 
 ## Read First
-- docs/product.md
-- docs/architecture.md
-- docs/page-map.md
-- docs/roadmap.md
-- active docs/releases/RELEASE-xxx.md
-- docs/ui.md
-- docs/api.md
-- docs/tasks.md
-- active docs/tasks/TASK-xxx.md
-- docs/handoff.md
-- docs/dev-log.md
+- docs/STATE.md (lightweight snapshot — read this first, skip the rest if it's fresh)
+- docs/handoff.md (only if STATE.md is missing or stale)
+- docs/tasks.md (only if deeper task context needed)
+- active docs/tasks/TASK-xxx.md (only if current_task identified)
+- docs/product.md, docs/architecture.md, docs/page-map.md, docs/roadmap.md, docs/ui.md, docs/api.md (only when the task requires specific context)
+- docs/dev-log.md (only when historical context needed)
 
 ## Documentation Language
 - Write human-facing documentation in the user's primary working language.
@@ -67,14 +114,27 @@ docs/
 - If instruction files are mirrored instead of pointer-based, update them together whenever critical rules change.
 
 ## Default Development Flow
-1. Confirm product direction.
-2. Confirm lifecycle/release planning and the first release/phase finish line.
-3. Classify project type: UI product, backend/API, library, CLI, infra/ops, data/AI, or mixed.
-4. Confirm all implementation-affecting technical selections and record them in docs/architecture.md and decisions.
-5. For UI products, confirm docs/page-map.md and page style direction before Design Anchor implementation.
-6. For backend/API, library, CLI, infra/ops, or data/AI projects, prioritize the relevant contract, interface, environment, or evaluation docs instead of forcing page-map/UI docs.
-7. Draft contracts early enough to guide mocks, fixtures, tests, or integrations, then stabilize them after validation.
-8. Update dev-log, roadmap/release progress, tasks, handoff, and decisions before ending work.
+
+Phase 1 — Planning (规划阶段):
+1. Step 1 `product_document`: confirm product direction and version boundaries (docs/product.md); confirm the first release finish line (docs/roadmap.md, docs/releases/).
+2. Step 2 `tech_stack`: confirm technical selection (docs/architecture.md); classify project type: UI product, backend/API, library, CLI, infra/ops, data/AI, or mixed.
+
+Phase 2 — Development (开发阶段; steps shown for UI products — for backend/API, library, CLI, infra/ops, or data/AI projects, substitute the relevant contract, interface, environment, or evaluation steps instead of forcing page/UI steps):
+3. Step 3 `page_style`: confirm docs/page-map.md and style direction; implement and accept the Design Anchor (docs/ui.md).
+4. Step 4 `frontend_dev`: implement all release pages following the accepted anchor.
+5. Step 5 `mock_data`: mock service layer covering meaningful states; pages depend on adapters, not raw mock files.
+6. Step 6 `preliminary_acceptance`: user validates pages and interactions under mock data.
+7. Step 7 `backend_dev`: implement backend against docs/api.md contracts (draft contracts early enough to guide mocks, stabilize after validation).
+8. Step 8 `integration`: replace mock adapters with real APIs; verify flows end-to-end.
+
+Phase 3 — Testing (全量测试阶段):
+9. Step 9 `full_testing`: explicit test case table for user manual acceptance; deployment preparation.
+
+Rules:
+- Keep docs/STATE.md `phase`/`step` aligned with this flow at all times.
+- Steps are sequential; a step's gate must pass before the next step starts.
+- Plan later releases at finish-line granularity only; break release N+1 into detailed tasks only after release N passes release acceptance.
+- Update dev-log, roadmap/release progress, tasks, STATE.md, and handoff before ending work.
 
 ## Setup Phase Rule
 Complete project setup/design in one continuous session whenever possible: product direction, lifecycle/release plan, technical selection, page map, initial API draft, initial UI constraints, and first task backlog. Use the current agent session's internal plan for setup progress. Do not add extra persistent setup-progress files unless the user explicitly asks for them; repository handoff docs are primarily for the longer development phase.
@@ -83,12 +143,14 @@ At the start of setup/design, create or update AGENTS.md first so the user does 
 
 ## Short Resume Prompts
 When the user says "continue development", "继续开发", "continue yesterday's task", "继续昨天的任务", or similar:
-1. Read docs/handoff.md frontmatter and body.
-2. Read docs/tasks.md.
-3. If handoff.current_task exists, read that TASK file first.
-4. If no current task is identified, select the first task in Current, then Ready.
-5. Follow handoff.next_action.
+1. Read docs/STATE.md. If it is fresh and internally consistent, orient from it alone — do not read handoff.md or tasks.md just to re-confirm what STATE.md already says.
+2. If STATE.current_task exists and the next action involves it, read that TASK file.
+3. Read docs/handoff.md only if STATE.md is missing, stale, or insufficient for the next action.
+4. Read docs/tasks.md only if no current task is identified; select the first task in Current, then Ready.
+5. Follow next_action from STATE.md (or handoff.md when STATE.md is unavailable).
 6. If blocked is true and cannot be resolved locally, ask the user only for the missing decision or resource.
+
+Minimal read set for a fresh resume: AGENTS.md + docs/STATE.md + the active TASK file. Read more only when the next action requires it.
 
 Supported next_action values:
 - continue_implementation
@@ -103,13 +165,12 @@ Supported next_action values:
 
 ## Status Query Rule
 When the user asks "当前进行到哪一步", "下一步做什么", "当前阶段", "进度汇报", "where are we", "what is next", or similar:
-1. Read docs/handoff.md.
-2. Read docs/tasks.md.
-3. Read docs/roadmap.md.
-4. Read the active release/phase file under docs/releases/ when current_release exists.
-5. Read the active TASK file if current_task exists.
-6. Check git status if the answer mentions implementation changes.
-7. Then answer with the current release/phase, current task, blocker if any, finish-line progress, and exact next action.
+1. Read docs/STATE.md. If it is fresh, answer from it: development phase, lifecycle step, current task, blocker, acceptance state, and exact next action.
+2. Read docs/handoff.md only if STATE.md is missing, stale, or the question needs detail STATE.md does not carry.
+3. Read docs/roadmap.md, the active docs/releases/ file, docs/tasks.md, or the active TASK file only when the question requires release-level progress or task-level detail.
+4. Check git status if the answer mentions implementation changes.
+
+Do not update docs for a status answer unless docs contradict each other or current code state.
 
 ## User Confirmation Required
 - MVP scope
@@ -208,12 +269,11 @@ Use this template when Claude Code is expected to work on the project.
 This project uses AGENTS.md as the canonical project instruction source.
 
 Before starting any work:
-1. Read AGENTS.md.
-2. Read docs/handoff.md.
-3. Read docs/roadmap.md.
-4. Read the active docs/releases/RELEASE-xxx.md if current_release exists.
-5. Read docs/tasks.md.
-6. Read the active docs/tasks/TASK-xxx.md if current_task exists.
+1. Read docs/STATE.md (lightweight snapshot — orient here first).
+2. Read AGENTS.md for operating rules.
+3. Read docs/handoff.md only if STATE.md is missing or stale.
+4. Read docs/roadmap.md and active docs/releases/RELEASE-xxx.md only when release context is needed.
+5. Read docs/tasks.md and active docs/tasks/TASK-xxx.md only when task context is needed.
 
 Critical rules:
 - Do not start a new task unless the current task is Done, explicitly Blocked, or the user explicitly asks to switch tasks.
@@ -574,6 +634,7 @@ page_map_status: accepted
 depends_on: []
 blocked_by: []
 blocks: []
+corrects: ""
 requires_user_acceptance: true
 acceptance_status: pending
 verification_status: pending
@@ -694,7 +755,7 @@ updated: YYYY-MM-DD
 # Dev Log
 
 ## Reading Guide
-- Resume work from docs/handoff.md, docs/tasks.md, and the active TASK first.
+- Resume work from docs/STATE.md and the active TASK first; read docs/handoff.md and docs/tasks.md only when STATE.md is missing, stale, or insufficient.
 - Use this file only when historical reasons, verification detail, or user feedback chains are needed.
 - Read by topic from the index below instead of loading the whole file by default.
 - Update this guide and index whenever a new durable theme, release, task cluster, or external-state thread appears.
@@ -736,6 +797,7 @@ Gaps / Next:
 ---
 updated: YYYY-MM-DD
 current_task: TASK-001
+current_task_file: docs/tasks/TASK-001-example.md
 current_release: RELEASE-001
 next_action: wait_for_user_acceptance
 blocked: false

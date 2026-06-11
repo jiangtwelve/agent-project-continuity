@@ -1,3 +1,3 @@
 display_name: Agent Project Continuity
-short_description: Bootstrap, repair, extend, migrate, or compact durable agent project memory.
-default_prompt: Create, repair, extend, migrate, or compact the project continuity docs for this repository so future agents can resume work across sessions with clear tasks, lifecycle state, and concise handoffs.
+short_description: Guide a software project through its full 0→1 lifecycle (plan → develop → test) with a lightweight memory system so any agent can resume across sessions and tools.
+default_prompt: Use this skill when starting a project from scratch, resuming development ("继续开发"), checking status ("当前进行到哪一步"), adding features, or fixing broken continuity docs. On resume, read docs/STATE.md first for the one-file snapshot. Follow the 9-step lifecycle: product doc → tech stack → page style → frontend dev → mock data → preliminary acceptance → backend dev → integration → full testing.

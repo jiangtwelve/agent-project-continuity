@@ -2,6 +2,16 @@
 
 Use this reference for task boards, task files, resume state, dev-log maintenance, and memory compaction.
 
+## State Layering
+
+Three layers carry resume state, from cheapest to richest:
+
+1. `docs/STATE.md` — snapshot. Under 40 lines. A fresh agent orients from this file alone.
+2. `docs/handoff.md` — latest actionable detail: cautions, key files, pending input, verification state.
+3. `docs/dev-log.md` — history with a topic index. Read by topic, never whole-file by default.
+
+STATE.md and handoff.md frontmatter must agree on `current_task`, `next_action`, `blocked`, and acceptance state. Update them together at every task status change, phase transition, user confirmation, and session end. If they conflict, treat the most recently updated file as the state to resolve, then repair both.
+
 ## Task Board
 
 Use `docs/tasks.md` as a status board, not the full development document. Keep implementation detail in `docs/tasks/TASK-xxx.md`.
@@ -39,6 +49,7 @@ Useful task fields:
 - `depends_on`
 - `blocked_by`
 - `blocks`
+- `corrects` (correction task linking to original done task — see Immutable Task Rule in SKILL.md)
 - `requires_user_acceptance`
 - `acceptance_status`
 - `verification_status`
@@ -109,8 +120,8 @@ Do not force future agents to load the whole log by default.
 
 When docs are bloated:
 
-1. Preserve current structured state first.
-2. Keep `docs/handoff.md` short and actionable.
+1. Preserve current structured state first (`docs/STATE.md` and `docs/handoff.md` frontmatter).
+2. Keep `docs/STATE.md` under 40 lines and `docs/handoff.md` short and actionable.
 3. Keep active task files focused on current scope, latest verification, acceptance state, and remaining work.
 4. Move history into `docs/dev-log.md` summaries and index entries.
 5. Archive or summarize old task files when they no longer help active development.

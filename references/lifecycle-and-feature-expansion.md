@@ -29,6 +29,12 @@ During setup, ask one lifecycle decision question at a time. Confirm at least th
 
 Do not impose a fixed version scheme. Recommend a default only after seeing project type, MVP risk, and user goal.
 
+## Deferred Planning For Later Releases
+
+Plan later releases at finish-line granularity only: purpose, included scope, excluded scope, exit criteria. Do not create detailed task files for release N+1 while release N is in development.
+
+Start detailed task breakdown for release N+1 only after release N passes release-level acceptance. If the user requests early detail for a later release, record it in that release file's scope notes instead of creating task files.
+
 ## Feature Expansion
 
 When the repository already has continuity docs and the user adds a feature:
