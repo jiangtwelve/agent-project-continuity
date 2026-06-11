@@ -60,13 +60,14 @@ Requirement changes mid-development follow a protocol: pause, update product doc
 
 ## Usage
 
-**Claude Code.** Place this repo in the project, trigger with `/agent-project-continuity`:
+**Starting a new project.** Say "initialize the continuity docs for this project." The agent will walk through product requirements, tech stack, and version boundaries one question at a time. Answer each, and the initial document set will be ready in one session.
 
-```
-"Initialize the continuity docs for this project"
-"Continue development"
-```
+**Resuming work.** Say "continue development" or "继续开发." The agent reads `STATE.md`, locates the current task, and picks up exactly where the last session left off — no repeated explanations.
 
-**Other agents.** Provide `SKILL.md` as system instructions. Keep `references/` available.
+**Mid-session handoff.** When you close one tool and open another, the new agent reads `STATE.md` on its own (it's the first file in the agent rules). You only need to say "continue development."
 
-**Manual.** Use templates in `references/project-memory-templates.md`. Update `.continuity/STATE.md` before each session end.
+**Adding features.** Describe the feature. The agent classifies it into the current release, a later one, or the backlog, updates the relevant docs, and asks for confirmation before starting. Scope stays contained.
+
+**Checking progress.** Ask "where are we" or "当前进行到哪一步." The agent reports the current phase, task, blockers, and next action from `STATE.md` — no docs are modified.
+
+**Fixing a completed task.** Say which task needs change. The agent creates a correction task linked to the original rather than modifying the done record. Development history stays intact.
