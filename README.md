@@ -18,6 +18,21 @@
 
 系统围绕一个核心文件 `.continuity/STATE.md`（不到 40 行的状态快照）运转。新 AI 来了只需读这一个文件就能定向，不需要先"吃下"整个项目。
 
+```
+AGENTS.md                    ← 代理操作规则（根目录入口，各工具自动识别）
+.continuity/                 ← 所有记忆文件都在这里，和项目自身文档隔离
+├── STATE.md                 ← 快照：我在哪、干什么、接下来做什么
+├── product.md               ← 产品定义：做什么、给谁用、不做哪些
+├── architecture.md          ← 技术选型：用什么技术、怎么跑起来
+├── roadmap.md + releases/   ← 版本规划：分几个版本，每个做什么
+├── page-map.md + ui.md      ← 页面地图 + 视觉契约
+├── tasks.md + tasks/        ← 任务看板 + 每项任务的详细说明书
+├── handoff.md               ← 交接留言：给下一个 AI 的注意事项
+├── dev-log.md               ← 开发日志：按主题索引，挑着看
+├── api.md                   ← 前后端数据格式约定
+└── decisions/               ← 重大决定存档："当初为什么这么选"
+```
+
 ### 2. 工作流
 
 软件从想法到上线的完整过程，拆成三个阶段、九步走：
@@ -94,6 +109,21 @@
 Core principle: **repository docs = durable memory, chat window = temporary context**.
 
 The system revolves around a single file — `.continuity/STATE.md`, a sub-40-line snapshot. A new agent orients from this file alone, without needing to ingest the entire project first.
+
+```
+AGENTS.md                    ← Agent rules at root (auto-detected by tools)
+.continuity/                 ← All memory files isolated from project docs
+├── STATE.md                 ← Snapshot: where am I, what am I doing, what's next
+├── product.md               ← Product definition: what, for whom, boundaries
+├── architecture.md          ← Tech stack: tools, run/verify commands
+├── roadmap.md + releases/   ← Version plan: releases, scope, exit criteria
+├── page-map.md + ui.md      ← Page map + visual contract
+├── tasks.md + tasks/        ← Task board + per-task specification
+├── handoff.md               ← Handoff note: cautions for the next agent
+├── dev-log.md               ← Dev log: topic-indexed, pick what to read
+├── api.md                   ← API contract between frontend and backend
+└── decisions/               ← Archived decisions: "why did we choose this?"
+```
 
 ### 2. Workflow
 
