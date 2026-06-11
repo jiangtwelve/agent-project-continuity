@@ -37,14 +37,14 @@ Verify and record observable state:
 - integration test result
 - remaining gap or manual verification needed
 
-Keep only latest actionable external state in `docs/handoff.md`. Put operation history in `docs/dev-log.md`.
+Keep only latest actionable external state in `.continuity/handoff.md`. Put operation history in `.continuity/dev-log.md`.
 
 Use `next_action: verify_external_state` when the next agent must inspect external state before coding.
 
 ## Documentation Targets
 
-- `docs/architecture.md`: durable environment shape and commands.
-- `docs/decisions/`: long-lived provider, region, deployment, auth, data retention, or migration decisions.
-- `docs/dev-log.md`: operation history and verification detail.
-- `docs/handoff.md`: latest state, cautions, and next action.
+- `.continuity/architecture.md`: durable environment shape and commands.
+- `.continuity/decisions/`: long-lived provider, region, deployment, auth, data retention, or migration decisions.
+- `.continuity/dev-log.md`: operation history and verification detail.
+- `.continuity/handoff.md`: latest state, cautions, and next action.
 - Active task: scoped implementation and verification status.

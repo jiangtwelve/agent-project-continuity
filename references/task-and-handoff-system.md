@@ -6,15 +6,15 @@ Use this reference for task boards, task files, resume state, dev-log maintenanc
 
 Three layers carry resume state, from cheapest to richest:
 
-1. `docs/STATE.md` — snapshot. Under 40 lines. A fresh agent orients from this file alone.
-2. `docs/handoff.md` — latest actionable detail: cautions, key files, pending input, verification state.
-3. `docs/dev-log.md` — history with a topic index. Read by topic, never whole-file by default.
+1. `.continuity/STATE.md` — snapshot. Under 40 lines. A fresh agent orients from this file alone.
+2. `.continuity/handoff.md` — latest actionable detail: cautions, key files, pending input, verification state.
+3. `.continuity/dev-log.md` — history with a topic index. Read by topic, never whole-file by default.
 
 STATE.md and handoff.md frontmatter must agree on `current_task`, `next_action`, `blocked`, and acceptance state. Update them together at every task status change, phase transition, user confirmation, and session end. If they conflict, treat the most recently updated file as the state to resolve, then repair both.
 
 ## Task Board
 
-Use `docs/tasks.md` as a status board, not the full development document. Keep implementation detail in `docs/tasks/TASK-xxx.md`.
+Use `.continuity/tasks.md` as a status board, not the full development document. Keep implementation detail in `.continuity/tasks/TASK-xxx.md`.
 
 Recommended display sections:
 
@@ -80,16 +80,16 @@ Do not start a new task unless the current task is `done`, explicitly `blocked`,
 ## Documentation Update Matrix
 
 - Status query or resume answer: do not update docs unless docs contradict each other or current code state.
-- Small bug fix, small UI adjustment, or local verification note: update `docs/dev-log.md`; update `docs/handoff.md` or the active task only if next action, blocker, acceptance status, or task scope changed.
-- Task completion: update `docs/tasks.md`, the active task file, `docs/dev-log.md`, and `docs/handoff.md`.
-- Release/phase progress change: also update `docs/roadmap.md` and the active `docs/releases/` file.
+- Small bug fix, small UI adjustment, or local verification note: update `.continuity/dev-log.md`; update `.continuity/handoff.md` or the active task only if next action, blocker, acceptance status, or task scope changed.
+- Task completion: update `.continuity/tasks.md`, the active task file, `.continuity/dev-log.md`, and `.continuity/handoff.md`.
+- Release/phase progress change: also update `.continuity/roadmap.md` and the active `.continuity/releases/` file.
 - Product, architecture, page map, UI contract, API contract, or decision change: update the corresponding source document.
 
 If required documentation cannot be updated, keep the task `current` or `blocked` and record the reason.
 
 ## Handoff
 
-Keep `docs/handoff.md` focused on latest actionable state:
+Keep `.continuity/handoff.md` focused on latest actionable state:
 
 - current release/phase
 - current task
@@ -100,11 +100,11 @@ Keep `docs/handoff.md` focused on latest actionable state:
 - key files
 - cautions
 
-Put operation history and detailed reasoning in `docs/dev-log.md`.
+Put operation history and detailed reasoning in `.continuity/dev-log.md`.
 
 ## Dev Log
 
-Create `docs/dev-log.md` with a reading guide and topic index during initialization. Update the index whenever a new durable theme, release, task cluster, or external-state thread appears.
+Create `.continuity/dev-log.md` with a reading guide and topic index during initialization. Update the index whenever a new durable theme, release, task cluster, or external-state thread appears.
 
 The dev log should answer:
 
@@ -120,9 +120,9 @@ Do not force future agents to load the whole log by default.
 
 When docs are bloated:
 
-1. Preserve current structured state first (`docs/STATE.md` and `docs/handoff.md` frontmatter).
-2. Keep `docs/STATE.md` under 40 lines and `docs/handoff.md` short and actionable.
+1. Preserve current structured state first (`.continuity/STATE.md` and `.continuity/handoff.md` frontmatter).
+2. Keep `.continuity/STATE.md` under 40 lines and `.continuity/handoff.md` short and actionable.
 3. Keep active task files focused on current scope, latest verification, acceptance state, and remaining work.
-4. Move history into `docs/dev-log.md` summaries and index entries.
+4. Move history into `.continuity/dev-log.md` summaries and index entries.
 5. Archive or summarize old task files when they no longer help active development.
 6. Resolve metadata/prose conflicts while compacting.

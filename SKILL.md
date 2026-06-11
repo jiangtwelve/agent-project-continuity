@@ -11,13 +11,13 @@ description: Use when starting a software project from 0 to 1, resuming developm
 
 When resuming work on an existing project, read these files **in this order** and stop as soon as you can answer "where am I, what am I doing, what's next":
 
-1. **`docs/STATE.md`** — lightweight snapshot (current phase, current task, next action, key decisions). If this file exists and is fresh, you have enough context to start.
-2. **`docs/handoff.md`** — latest handoff note if STATE.md is missing or stale.
-3. **`docs/tasks.md`** — task board for current/backlog/done overview.
+1. **`.continuity/STATE.md`** — lightweight snapshot (current phase, current task, next action, key decisions). If this file exists and is fresh, you have enough context to start.
+2. **`.continuity/handoff.md`** — latest handoff note if STATE.md is missing or stale.
+3. **`.continuity/tasks.md`** — task board for current/backlog/done overview.
 4. **Active task file** — use the exact path in `current_task_file`; never guess task filenames.
 5. **`AGENTS.md`** — operating rules when no project-specific instructions exist yet.
 
-If `docs/STATE.md` exists, a new agent can orient within **one file read**. Read additional files only when the task requires deeper context.
+If `.continuity/STATE.md` exists, a new agent can orient within **one file read**. Read additional files only when the task requires deeper context.
 
 ## Development Lifecycle
 
@@ -30,14 +30,14 @@ A software project progresses through three phases. Steps within each phase are 
 **Step 1 — Product Document (产品文档)**
 
 - Discuss product requirements with the user through one-question-at-a-time dialogue.
-- Generate `docs/product.md` covering target users, core scenarios, MVP goal, main pages, priority workflows, required data, and explicit out-of-scope items.
+- Generate `.continuity/product.md` covering target users, core scenarios, MVP goal, main pages, priority workflows, required data, and explicit out-of-scope items.
 - Confirm version/phase boundaries: what goes into v1.0 vs v2.0 vs backlog.
 - **Gate**: User must explicitly confirm the product document. Vague replies ("继续", "looks good") do not count.
 
 **Step 2 — Tech Stack (技术栈)**
 
 - Confirm frontend framework, backend stack, database, auth, deployment, test strategy.
-- Record in `docs/architecture.md`.
+- Record in `.continuity/architecture.md`.
 - **Gate**: User must explicitly confirm tech choices.
 
 ### Phase 2: Development (开发阶段)
@@ -48,7 +48,7 @@ A software project progresses through three phases. Steps within each phase are 
 
 - Select one representative page as the **Design Anchor**.
 - Implement the anchor page and iterate with the user until accepted.
-- Record visual direction in `docs/ui.md`: colors, typography, spacing, components, interaction patterns, copy tone, and explicit "do not" rules.
+- Record visual direction in `.continuity/ui.md`: colors, typography, spacing, components, interaction patterns, copy tone, and explicit "do not" rules.
 - All subsequent pages follow this established direction (Design Extension).
 - **Gate**: User must accept the Design Anchor before proceeding.
 
@@ -56,7 +56,7 @@ A software project progresses through three phases. Steps within each phase are 
 
 - Implement all MVP pages following the Design Anchor/Extension pattern.
 - Each page gets a TASK file with clear acceptance criteria.
-- Create `docs/page-map.md` before building pages.
+- Create `.continuity/page-map.md` before building pages.
 - **Gate**: All frontend pages implemented and locally previewable.
 
 **Step 5 — Mock Data Integration (接入 Mock 数据)**
@@ -75,7 +75,7 @@ A software project progresses through three phases. Steps within each phase are 
 
 **Step 7 — Backend Development (后端开发)**
 
-- Implement backend services following API contracts in `docs/api.md`.
+- Implement backend services following API contracts in `.continuity/api.md`.
 - Each backend task gets a TASK file with verification criteria.
 - Use `references/external-state.md` for database, cloud, deployment changes.
 - **Gate**: Backend services implemented and locally verifiable.
@@ -110,7 +110,7 @@ Detailed task breakdown for release N+1 starts **only after release N passes rel
 
 ### STATE.md
 
-`docs/STATE.md` is the **first file a new agent reads**. It must be:
+`.continuity/STATE.md` is the **first file a new agent reads**. It must be:
 - **Short**: under 40 lines. No prose paragraphs.
 - **Structured**: YAML frontmatter + bullet points only.
 - **Current**: updated at every meaningful state change.
@@ -126,7 +126,7 @@ See `references/project-memory-templates.md` for the STATE.md template.
 
 ### Handoff.md
 
-`docs/handoff.md` is the **detailed handoff** for the next agent. It contains:
+`.continuity/handoff.md` is the **detailed handoff** for the next agent. It contains:
 - Current state narrative
 - Pending user input
 - Key files and cautions
@@ -151,7 +151,7 @@ This preserves an accurate development history and prevents confusion when switc
 When requirements change during development:
 
 1. **Pause**: Stop current implementation if affected.
-2. **Document**: Update `docs/product.md` with the changed requirement.
+2. **Document**: Update `.continuity/product.md` with the changed requirement.
 3. **Classify**: Determine if the change affects:
    - Current release/phase (blocks exit criteria)
    - Later release/phase (valuable but not blocking)
@@ -168,19 +168,19 @@ Never silently expand scope. Every change must be documented and confirmed.
 Keep one source of truth for each concern:
 
 - `AGENTS.md`: operating rules for agents in this repository.
-- `docs/STATE.md`: lightweight current state snapshot.
-- `docs/product.md`: product intent, MVP, user flows, and boundaries.
-- `docs/architecture.md`: selected stack, system shape, integration boundaries, and run/verification commands.
-- `docs/page-map.md`: pages, routes, navigation, states, data dependencies, and Design Anchor choice when UI exists.
-- `docs/roadmap.md`: lifecycle plan, release/phase structure, major goals, and finish lines.
-- `docs/releases/`: per-release or per-phase goals, included scope, excluded scope, exit criteria, and acceptance rules.
-- `docs/tasks.md`: task index and status board.
-- `docs/tasks/TASK-xxx.md`: atomic implementation instructions and status.
-- `docs/dev-log.md`: durable history, with a reading guide and topic index near the top.
-- `docs/handoff.md`: latest resume note for the next agent.
-- `docs/decisions/`: long-lived product, architecture, API, workflow, or external-state decisions.
-- `docs/api.md` or `docs/api/`: API contract drafts and stable contracts.
-- `docs/ui.md`: visual and interaction rules when the running frontend is a design source.
+- `.continuity/STATE.md`: lightweight current state snapshot.
+- `.continuity/product.md`: product intent, MVP, user flows, and boundaries.
+- `.continuity/architecture.md`: selected stack, system shape, integration boundaries, and run/verification commands.
+- `.continuity/page-map.md`: pages, routes, navigation, states, data dependencies, and Design Anchor choice when UI exists.
+- `.continuity/roadmap.md`: lifecycle plan, release/phase structure, major goals, and finish lines.
+- `.continuity/releases/`: per-release or per-phase goals, included scope, excluded scope, exit criteria, and acceptance rules.
+- `.continuity/tasks.md`: task index and status board.
+- `.continuity/tasks/TASK-xxx.md`: atomic implementation instructions and status.
+- `.continuity/dev-log.md`: durable history, with a reading guide and topic index near the top.
+- `.continuity/handoff.md`: latest resume note for the next agent.
+- `.continuity/decisions/`: long-lived product, architecture, API, workflow, or external-state decisions.
+- `.continuity/api.md` or `.continuity/api/`: API contract drafts and stable contracts.
+- `.continuity/ui.md`: visual and interaction rules when the running frontend is a design source.
 
 Create only the minimal set needed for the current phase. Do not create ceremonial docs.
 
@@ -220,7 +220,7 @@ For initialization of a new project:
 
 1. Inspect repository shape and existing instruction files.
 2. Create `AGENTS.md` using templates from `references/project-memory-templates.md`.
-3. Create `docs/STATE.md` (initial state: Phase 1, Step 1).
+3. Create `.continuity/STATE.md` (initial state: Phase 1, Step 1).
 4. Determine project type with `references/project-types.md`.
 5. Begin Step 1 (Product Document) — discuss requirements one question at a time.
 6. After user confirms product doc, proceed to Step 2 (Tech Stack).
@@ -234,8 +234,8 @@ Use the current session's internal planning/progress tools for the setup phase. 
 
 When a new agent encounters an existing project:
 
-1. **Read `docs/STATE.md`** (if exists). This gives: current phase, current step, current task, next action, key decisions.
-2. If STATE.md is missing or stale, read `docs/handoff.md` + `docs/tasks.md`.
+1. **Read `.continuity/STATE.md`** (if exists). This gives: current phase, current step, current task, next action, key decisions.
+2. If STATE.md is missing or stale, read `.continuity/handoff.md` + `.continuity/tasks.md`.
 3. If `current_task` exists, read that task file.
 4. Follow `next_action` from STATE.md or handoff.md.
 5. If blocked, ask only for the missing decision or resource.
@@ -267,7 +267,7 @@ During implementation:
 - Keep changes inside the active task scope.
 - Prefer small, verifiable increments.
 - Add abstractions only after real repetition or replacement needs appear.
-- Record long-lived decisions in `docs/decisions/`.
+- Record long-lived decisions in `.continuity/decisions/`.
 - If scope expands, follow the Change Protocol — do not silently do unrelated work.
 - Route future backend or external-service replacement through service/adapters rather than direct mock imports.
 - Use `references/external-state.md` before changing databases, cloud environments, deployments, auth providers, storage, or other external state.
@@ -276,8 +276,8 @@ Before ending meaningful work:
 
 1. Run relevant build, test, lint, preview, or manual verification.
 2. Update docs whose source of truth changed.
-3. Update `docs/STATE.md` with current phase, step, task, and next action.
-4. Update `docs/handoff.md` with detailed state, key files, cautions, and a stable `next_action`.
+3. Update `.continuity/STATE.md` with current phase, step, task, and next action.
+4. Update `.continuity/handoff.md` with detailed state, key files, cautions, and a stable `next_action`.
 5. Check active release/phase exit criteria.
 
 If verification cannot be completed, record exactly what was not verified and why.
@@ -294,7 +294,7 @@ If verification cannot be completed, record exactly what was not verified and wh
 - `verify_external_state`
 - `blocked`
 
-If `next_action` is missing or ambiguous, infer the safest next action from task status and handoff notes, then update `docs/STATE.md` and `docs/handoff.md`.
+If `next_action` is missing or ambiguous, infer the safest next action from task status and handoff notes, then update `.continuity/STATE.md` and `.continuity/handoff.md`.
 
 ## Mode Router (Advanced)
 
@@ -302,7 +302,7 @@ For operations beyond the linear lifecycle, choose the lightest mode that fits:
 
 - `Repair`: fix missing, stale, contradictory, or unusable continuity docs. Read the conflicting docs, current code state, and the relevant reference files.
 - `Feature Expansion`: place a new feature into an established lifecycle. Read existing memory and `references/lifecycle-and-feature-expansion.md`.
-- `Compact Memory`: reduce bloated docs. Read `docs/handoff.md`, `docs/tasks.md`, active tasks, recent `docs/dev-log.md`, and `references/task-and-handoff-system.md`.
+- `Compact Memory`: reduce bloated docs. Read `.continuity/handoff.md`, `.continuity/tasks.md`, active tasks, recent `.continuity/dev-log.md`, and `references/task-and-handoff-system.md`.
 - `Migration`: adapt continuity docs for another agent surface or repository shape. Read entrypoint rules in `references/project-memory-templates.md`.
 
 Use these modes when the user's request does not fit the linear lifecycle flow.

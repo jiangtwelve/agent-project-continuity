@@ -11,7 +11,7 @@ Every long-running project needs an explicit lifecycle plan before implementatio
 - milestones such as prototype, beta, launch, operations
 - a custom scheme chosen with the user
 
-Create `docs/roadmap.md` for the overview. Create files under `docs/releases/` for active and near-term releases/phases.
+Create `.continuity/roadmap.md` for the overview. Create files under `.continuity/releases/` for active and near-term releases/phases.
 
 Each release/phase should define:
 
@@ -39,13 +39,13 @@ Start detailed task breakdown for release N+1 only after release N passes releas
 
 When the repository already has continuity docs and the user adds a feature:
 
-1. Read `AGENTS.md`, `docs/handoff.md`, `docs/tasks.md`, `docs/roadmap.md`, the active release/phase file, and docs relevant to the feature surface.
+1. Read `AGENTS.md`, `.continuity/handoff.md`, `.continuity/tasks.md`, `.continuity/roadmap.md`, the active release/phase file, and docs relevant to the feature surface.
 2. Ask only feature-scoped questions needed to classify and implement the feature.
 3. Assess whether it affects current work, later page design, UI contract, API contract, backend behavior, data model, navigation, accepted user flows, external state, or release exit criteria.
 4. Place the feature by dependency and product priority.
 5. Update only affected documents.
 6. Create atomic task files before referencing new task IDs.
-7. Update `docs/handoff.md` with the appropriate next action.
+7. Update `.continuity/handoff.md` with the appropriate next action.
 
 ## Placement Rules
 

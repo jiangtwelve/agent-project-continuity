@@ -12,11 +12,11 @@
 
 **问题**：你用 Claude Code 写了一半代码，明天换成 Codex 继续——新来的 AI 完全不记得昨天聊了什么、写到哪里、用户做过哪些决定。每次换工具都像从零开始。
 
-**答案**：Agent Project Continuity 是一套**轻量级的项目记忆系统**。它在你项目的 `docs/` 目录下维护一组结构化文档，让任何一个 AI 编程助手在**一分钟内**搞清楚三件事——**我在哪、我在干什么、接下来做什么**。
+**答案**：Agent Project Continuity 是一套**轻量级的项目记忆系统**。它在你项目的 `.continuity/` 目录下维护一组结构化文档，让任何一个 AI 编程助手在**一分钟内**搞清楚三件事——**我在哪、我在干什么、接下来做什么**。
 
 核心理念很简单：**仓库文档 = 持久记忆，对话窗口 = 临时上下文**。
 
-系统围绕一个核心文件 `docs/STATE.md`（不到 40 行的状态快照）运转。新 AI 来了只需读这一个文件就能定向，不需要先"吃下"整个项目。
+系统围绕一个核心文件 `.continuity/STATE.md`（不到 40 行的状态快照）运转。新 AI 来了只需读这一个文件就能定向，不需要先"吃下"整个项目。
 
 ### 2. 工作流
 
@@ -79,7 +79,7 @@
 
 **方式三：手动使用**
 
-参考 `references/project-memory-templates.md` 获取全部文档模板，按需创建。每次收工前更新 `docs/STATE.md`。
+参考 `references/project-memory-templates.md` 获取全部文档模板，按需创建。每次收工前更新 `.continuity/STATE.md`。
 
 ---
 
@@ -89,11 +89,11 @@
 
 **The problem**: You write half your app with Claude Code, then switch to Codex the next day — the new agent remembers nothing. No history, no decisions, no idea where the last agent left off. Every tool switch feels like starting over.
 
-**The answer**: Agent Project Continuity is a **lightweight project memory system**. It maintains a set of structured documents in your project's `docs/` directory so any AI coding agent can answer three questions within **one minute** — *where am I, what am I doing, what's next*.
+**The answer**: Agent Project Continuity is a **lightweight project memory system**. It maintains a set of structured documents in your project's `.continuity/` directory so any AI coding agent can answer three questions within **one minute** — *where am I, what am I doing, what's next*.
 
 Core principle: **repository docs = durable memory, chat window = temporary context**.
 
-The system revolves around a single file — `docs/STATE.md`, a sub-40-line snapshot. A new agent orients from this file alone, without needing to ingest the entire project first.
+The system revolves around a single file — `.continuity/STATE.md`, a sub-40-line snapshot. A new agent orients from this file alone, without needing to ingest the entire project first.
 
 ### 2. Workflow
 
@@ -156,4 +156,4 @@ Provide `SKILL.md` as system instructions or context to the agent, with the `ref
 
 **Option 3: Manual**
 
-Use `references/project-memory-templates.md` for all document templates. Create documents as needed. Update `docs/STATE.md` before ending each work session.
+Use `references/project-memory-templates.md` for all document templates. Create documents as needed. Update `.continuity/STATE.md` before ending each work session.

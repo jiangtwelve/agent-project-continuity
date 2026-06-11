@@ -34,7 +34,7 @@ Use `owner_approval` for durable decisions that may not have a simple manual acc
 - public library/CLI interface changes
 - release scope changes
 
-Record the decision in the relevant source doc and, when long-lived, in `docs/decisions/`.
+Record the decision in the relevant source doc and, when long-lived, in `.continuity/decisions/`.
 
 ### Local Verification
 
@@ -46,7 +46,7 @@ Use `local_verification` for changes that can be verified by the agent without p
 - small implementation fixes with no user-visible contract change
 - behavior-preserving component extraction after acceptance
 
-Record command output or manual verification result in the active task and `docs/dev-log.md`.
+Record command output or manual verification result in the active task and `.continuity/dev-log.md`.
 
 ## Vague Replies
 

@@ -20,7 +20,7 @@ Use these templates together with the focused references in this folder. In part
 ```text
 AGENTS.md
 CLAUDE.md (when Claude Code is expected)
-docs/
+.continuity/
 ├── STATE.md                  # Lightweight state snapshot (read first)
 ├── product.md
 ├── architecture.md
@@ -39,7 +39,7 @@ docs/
     └── 001-example.md
 ```
 
-## docs/STATE.md
+## STATE.md
 
 The first file a new agent reads. Must be under 40 lines, structured, and sufficient to answer "where am I, what am I doing, what's next".
 
@@ -87,7 +87,7 @@ Rules:
 - If this file is fresh, agents do not need to read handoff.md or tasks.md to orient.
 - `step` values: 1=product_document, 2=tech_stack, 3=page_style, 4=frontend_dev, 5=mock_data, 6=preliminary_acceptance, 7=backend_dev, 8=integration, 9=full_testing
 - STATE.md and handoff.md frontmatter must agree on `current_task`, `next_action`, `blocked`, and acceptance state. Update them together; if they conflict, treat the most recently updated file as the state to resolve, then repair both.
-- `current_task_file` must hold the exact path (e.g. `docs/tasks/TASK-003-inventory-list.md`) so agents never guess task filenames.
+- `current_task_file` must hold the exact path (e.g. `.continuity/tasks/TASK-003-inventory-list.md`) so agents never guess task filenames.
 
 ## AGENTS.md
 
@@ -95,12 +95,12 @@ Rules:
 # Agent Instructions
 
 ## Read First
-- docs/STATE.md (lightweight snapshot — read this first, skip the rest if it's fresh)
-- docs/handoff.md (only if STATE.md is missing or stale)
-- docs/tasks.md (only if deeper task context needed)
-- active docs/tasks/TASK-xxx.md (only if current_task identified)
-- docs/product.md, docs/architecture.md, docs/page-map.md, docs/roadmap.md, docs/ui.md, docs/api.md (only when the task requires specific context)
-- docs/dev-log.md (only when historical context needed)
+- .continuity/STATE.md (lightweight snapshot — read this first, skip the rest if it's fresh)
+- .continuity/handoff.md (only if STATE.md is missing or stale)
+- .continuity/tasks.md (only if deeper task context needed)
+- active .continuity/tasks/TASK-xxx.md (only if current_task identified)
+- .continuity/product.md, .continuity/architecture.md, .continuity/page-map.md, .continuity/roadmap.md, .continuity/ui.md, .continuity/api.md (only when the task requires specific context)
+- .continuity/dev-log.md (only when historical context needed)
 
 ## Documentation Language
 - Write human-facing documentation in the user's primary working language.
@@ -116,22 +116,22 @@ Rules:
 ## Default Development Flow
 
 Phase 1 — Planning (规划阶段):
-1. Step 1 `product_document`: confirm product direction and version boundaries (docs/product.md); confirm the first release finish line (docs/roadmap.md, docs/releases/).
-2. Step 2 `tech_stack`: confirm technical selection (docs/architecture.md); classify project type: UI product, backend/API, library, CLI, infra/ops, data/AI, or mixed.
+1. Step 1 `product_document`: confirm product direction and version boundaries (.continuity/product.md); confirm the first release finish line (.continuity/roadmap.md, .continuity/releases/).
+2. Step 2 `tech_stack`: confirm technical selection (.continuity/architecture.md); classify project type: UI product, backend/API, library, CLI, infra/ops, data/AI, or mixed.
 
 Phase 2 — Development (开发阶段; steps shown for UI products — for backend/API, library, CLI, infra/ops, or data/AI projects, substitute the relevant contract, interface, environment, or evaluation steps instead of forcing page/UI steps):
-3. Step 3 `page_style`: confirm docs/page-map.md and style direction; implement and accept the Design Anchor (docs/ui.md).
+3. Step 3 `page_style`: confirm .continuity/page-map.md and style direction; implement and accept the Design Anchor (.continuity/ui.md).
 4. Step 4 `frontend_dev`: implement all release pages following the accepted anchor.
 5. Step 5 `mock_data`: mock service layer covering meaningful states; pages depend on adapters, not raw mock files.
 6. Step 6 `preliminary_acceptance`: user validates pages and interactions under mock data.
-7. Step 7 `backend_dev`: implement backend against docs/api.md contracts (draft contracts early enough to guide mocks, stabilize after validation).
+7. Step 7 `backend_dev`: implement backend against .continuity/api.md contracts (draft contracts early enough to guide mocks, stabilize after validation).
 8. Step 8 `integration`: replace mock adapters with real APIs; verify flows end-to-end.
 
 Phase 3 — Testing (全量测试阶段):
 9. Step 9 `full_testing`: explicit test case table for user manual acceptance; deployment preparation.
 
 Rules:
-- Keep docs/STATE.md `phase`/`step` aligned with this flow at all times.
+- Keep .continuity/STATE.md `phase`/`step` aligned with this flow at all times.
 - Steps are sequential; a step's gate must pass before the next step starts.
 - Plan later releases at finish-line granularity only; break release N+1 into detailed tasks only after release N passes release acceptance.
 - Update dev-log, roadmap/release progress, tasks, STATE.md, and handoff before ending work.
@@ -143,14 +143,14 @@ At the start of setup/design, create or update AGENTS.md first so the user does 
 
 ## Short Resume Prompts
 When the user says "continue development", "继续开发", "continue yesterday's task", "继续昨天的任务", or similar:
-1. Read docs/STATE.md. If it is fresh and internally consistent, orient from it alone — do not read handoff.md or tasks.md just to re-confirm what STATE.md already says.
+1. Read .continuity/STATE.md. If it is fresh and internally consistent, orient from it alone — do not read handoff.md or tasks.md just to re-confirm what STATE.md already says.
 2. If STATE.current_task exists and the next action involves it, read that TASK file.
-3. Read docs/handoff.md only if STATE.md is missing, stale, or insufficient for the next action.
-4. Read docs/tasks.md only if no current task is identified; select the first task in Current, then Ready.
+3. Read .continuity/handoff.md only if STATE.md is missing, stale, or insufficient for the next action.
+4. Read .continuity/tasks.md only if no current task is identified; select the first task in Current, then Ready.
 5. Follow next_action from STATE.md (or handoff.md when STATE.md is unavailable).
 6. If blocked is true and cannot be resolved locally, ask the user only for the missing decision or resource.
 
-Minimal read set for a fresh resume: AGENTS.md + docs/STATE.md + the active TASK file. Read more only when the next action requires it.
+Minimal read set for a fresh resume: AGENTS.md + .continuity/STATE.md + the active TASK file. Read more only when the next action requires it.
 
 Supported next_action values:
 - continue_implementation
@@ -165,9 +165,9 @@ Supported next_action values:
 
 ## Status Query Rule
 When the user asks "当前进行到哪一步", "下一步做什么", "当前阶段", "进度汇报", "where are we", "what is next", or similar:
-1. Read docs/STATE.md. If it is fresh, answer from it: development phase, lifecycle step, current task, blocker, acceptance state, and exact next action.
-2. Read docs/handoff.md only if STATE.md is missing, stale, or the question needs detail STATE.md does not carry.
-3. Read docs/roadmap.md, the active docs/releases/ file, docs/tasks.md, or the active TASK file only when the question requires release-level progress or task-level detail.
+1. Read .continuity/STATE.md. If it is fresh, answer from it: development phase, lifecycle step, current task, blocker, acceptance state, and exact next action.
+2. Read .continuity/handoff.md only if STATE.md is missing, stale, or the question needs detail STATE.md does not carry.
+3. Read .continuity/roadmap.md, the active .continuity/releases/ file, .continuity/tasks.md, or the active TASK file only when the question requires release-level progress or task-level detail.
 4. Check git status if the answer mentions implementation changes.
 
 Do not update docs for a status answer unless docs contradict each other or current code state.
@@ -194,7 +194,7 @@ Do not update docs for a status answer unless docs contradict each other or curr
 
 ## Task Transition Guard
 - Do not start a new task unless the current task is Done, explicitly Blocked, or the user explicitly asks to switch tasks.
-- The next task must have an existing docs/tasks/TASK-xxx.md file before implementation starts.
+- The next task must have an existing .continuity/tasks/TASK-xxx.md file before implementation starts.
 - Do not invent task IDs in chat. Create the task file first during task planning, then reference it.
 - If user acceptance is pending, keep the current task active and present the acceptance table instead of moving on.
 - Do not start optional work after the active release/phase exit criteria are met. Present release/phase acceptance instead.
@@ -203,9 +203,9 @@ Do not update docs for a status answer unless docs contradict each other or curr
 ## Documentation Completion Rule
 Task completion requires documentation updates, but update only the files whose state changed:
 - Status query or resume answer: do not update docs unless docs contradict each other or current code state.
-- Small bug fix, small UI adjustment, or local verification note: update docs/dev-log.md; update docs/handoff.md or the active task only if next action, blocker, acceptance status, or scope changed.
-- Task completion: update docs/tasks.md, the active docs/tasks/TASK-xxx.md, docs/dev-log.md, and docs/handoff.md.
-- Release/phase progress change: also update docs/roadmap.md and the active docs/releases/ file.
+- Small bug fix, small UI adjustment, or local verification note: update .continuity/dev-log.md; update .continuity/handoff.md or the active task only if next action, blocker, acceptance status, or scope changed.
+- Task completion: update .continuity/tasks.md, the active .continuity/tasks/TASK-xxx.md, .continuity/dev-log.md, and .continuity/handoff.md.
+- Release/phase progress change: also update .continuity/roadmap.md and the active .continuity/releases/ file.
 - Product, architecture, page map, UI contract, API contract, or decision change: update the corresponding source document.
 
 If required documentation cannot be updated, keep the task Current or Blocked and record the reason in handoff.
@@ -228,8 +228,8 @@ Always tell the user which release/phase a new feature is being assigned to and 
 
 ## Lifecycle And Release Planning
 - Define the project lifecycle during setup/design. The structure is project-specific and may be versions, phases, milestones, or another naming scheme chosen with the user.
-- Create docs/roadmap.md for the full lifecycle overview.
-- Create docs/releases/RELEASE-xxx.md files for active and near-term releases/phases.
+- Create .continuity/roadmap.md for the full lifecycle overview.
+- Create .continuity/releases/RELEASE-xxx.md files for active and near-term releases/phases.
 - Every implementation task should declare which release/phase it belongs to.
 - Each release/phase must define included scope, excluded scope, required tasks, exit criteria, and release-level acceptance.
 - At the end of each meaningful task, check whether the active release/phase exit criteria are now met.
@@ -269,15 +269,15 @@ Use this template when Claude Code is expected to work on the project.
 This project uses AGENTS.md as the canonical project instruction source.
 
 Before starting any work:
-1. Read docs/STATE.md (lightweight snapshot — orient here first).
+1. Read .continuity/STATE.md (lightweight snapshot — orient here first).
 2. Read AGENTS.md for operating rules.
-3. Read docs/handoff.md only if STATE.md is missing or stale.
-4. Read docs/roadmap.md and active docs/releases/RELEASE-xxx.md only when release context is needed.
-5. Read docs/tasks.md and active docs/tasks/TASK-xxx.md only when task context is needed.
+3. Read .continuity/handoff.md only if STATE.md is missing or stale.
+4. Read .continuity/roadmap.md and active .continuity/releases/RELEASE-xxx.md only when release context is needed.
+5. Read .continuity/tasks.md and active .continuity/tasks/TASK-xxx.md only when task context is needed.
 
 Critical rules:
 - Do not start a new task unless the current task is Done, explicitly Blocked, or the user explicitly asks to switch tasks.
-- Do not invent task IDs. The next task must have an existing docs/tasks/TASK-xxx.md file before implementation starts.
+- Do not invent task IDs. The next task must have an existing .continuity/tasks/TASK-xxx.md file before implementation starts.
 - Do not mark a task Done or start the next task until required documentation updates are complete for the changed scope.
 - Every task must belong to a release/phase or backlog.
 - Do not silently expand the active release/phase. Classify new features into current release/phase, later release/phase, or backlog.
@@ -285,12 +285,12 @@ Critical rules:
 - User-visible UI, interaction, workflow, release behavior, or externally visible integration behavior requires scoped structured user acceptance before Done.
 - Durable product, stable API, architecture, data model, security, privacy, or release-scope decisions require owner approval.
 - Vague prompts such as "继续", "下一步", "看起来不错", or "continue" do not count as user acceptance.
-- When asked about status or next steps, read docs/handoff.md, docs/roadmap.md, the active release/phase file, docs/tasks.md, and the active TASK file before answering.
+- When asked about status or next steps, read .continuity/handoff.md, .continuity/roadmap.md, the active release/phase file, .continuity/tasks.md, and the active TASK file before answering.
 
 If CLAUDE.md and AGENTS.md diverge, follow AGENTS.md as canonical, report the mismatch, and update both files when appropriate.
 ```
 
-## docs/product.md
+## product.md
 
 ```markdown
 ---
@@ -328,7 +328,7 @@ Options:
 Confirmed answer:
 ```
 
-## docs/architecture.md
+## architecture.md
 
 ```markdown
 ---
@@ -366,7 +366,7 @@ updated: YYYY-MM-DD
 - 
 ```
 
-## docs/page-map.md
+## page-map.md
 
 ```markdown
 ---
@@ -413,7 +413,7 @@ updated: YYYY-MM-DD
 - 
 ```
 
-## docs/roadmap.md
+## roadmap.md
 
 ```markdown
 ---
@@ -443,7 +443,7 @@ updated: YYYY-MM-DD
 - Purpose:
 - Target users:
 - Finish line:
-- Release file: docs/releases/RELEASE-001-example.md
+- Release file: .continuity/releases/RELEASE-001-example.md
 - Required tasks:
 - Optional tasks:
 - Deferred to later:
@@ -458,7 +458,7 @@ updated: YYYY-MM-DD
 - 
 ```
 
-## docs/releases/RELEASE-xxx.md
+## releases/RELEASE-xxx.md
 
 ```markdown
 ---
@@ -505,7 +505,7 @@ updated: YYYY-MM-DD
 ## Notes
 ```
 
-## docs/ui.md
+## ui.md
 
 ```markdown
 ---
@@ -591,7 +591,7 @@ Confirmed answer:
 - Do not introduce a new global visual direction without user confirmation.
 ```
 
-## docs/tasks.md
+## tasks.md
 
 ```markdown
 # Tasks
@@ -616,7 +616,7 @@ Confirmed answer:
 - [x] TASK-000 Initialize project memory docs
 ```
 
-## docs/tasks/TASK-xxx.md
+## tasks/TASK-xxx.md
 
 ```markdown
 ---
@@ -660,13 +660,13 @@ Build the first runnable frontend page as the design source of truth.
 - Final API stabilization
 
 ## Context
-- Product basis: docs/product.md
-- Technical basis: docs/architecture.md
-- Roadmap: docs/roadmap.md
-- Release / phase: docs/releases/RELEASE-xxx.md
-- Page map: docs/page-map.md
-- UI rules: docs/ui.md
-- API draft: docs/api.md
+- Product basis: .continuity/product.md
+- Technical basis: .continuity/architecture.md
+- Roadmap: .continuity/roadmap.md
+- Release / phase: .continuity/releases/RELEASE-xxx.md
+- Page map: .continuity/page-map.md
+- UI rules: .continuity/ui.md
+- API draft: .continuity/api.md
 
 ## Design Continuity
 - Mode: Design Anchor | Design Extension
@@ -677,14 +677,14 @@ Build the first runnable frontend page as the design source of truth.
 
 ## Implementation Steps
 1. Inspect the existing frontend structure.
-2. Read docs/architecture.md and docs/page-map.md.
-3. Read docs/ui.md and inspect the anchor page when this is a Design Extension.
+2. Read .continuity/architecture.md and .continuity/page-map.md.
+3. Read .continuity/ui.md and inspect the anchor page when this is a Design Extension.
 4. Create or update the target page.
 5. Add representative preview fixtures for meaningful user states; keep them separate from markup/templates.
 6. Render normal, empty, and edge states when relevant.
 7. Adjust spacing, hierarchy, copy, and interaction in code.
-8. Record low-risk default interactions in docs/ui.md; ask the user about high-impact interactions.
-9. Update docs/ui.md if this task establishes or extends reusable UI patterns.
+8. Record low-risk default interactions in .continuity/ui.md; ask the user about high-impact interactions.
+9. Update .continuity/ui.md if this task establishes or extends reusable UI patterns.
 10. Verify the page in the available local preview environment.
 
 ## Acceptance Criteria
@@ -695,7 +695,7 @@ Build the first runnable frontend page as the design source of truth.
 - User-requested visual states are shown through the available preview surface, screenshot, simulator, or exact local URL when feasible.
 - Business data is not hard-coded directly in page markup/templates.
 - No direct page dependency on raw mock files when a service layer is expected.
-- Design Extension pages follow docs/ui.md and the accepted anchor page.
+- Design Extension pages follow .continuity/ui.md and the accepted anchor page.
 - UI controls are tied to confirmed user workflows, not simply all available model/API fields.
 - Existing shared components are reused where appropriate, or the exception is documented.
 - Base components extracted after user acceptance preserve the accepted page appearance.
@@ -728,12 +728,12 @@ Do not mark Done until the user explicitly confirms acceptance. Vague prompts su
 User acceptance: pending
 
 ## Documentation Updates
-- docs/tasks.md: pending
+- .continuity/tasks.md: pending
 - Active TASK file: pending
-- docs/dev-log.md: pending
-- docs/handoff.md: pending
-- docs/roadmap.md or docs/releases/ if release progress changed: not applicable
-- docs/product.md, docs/architecture.md, docs/page-map.md, docs/ui.md, docs/api.md, or docs/decisions/ if changed: not applicable
+- .continuity/dev-log.md: pending
+- .continuity/handoff.md: pending
+- .continuity/roadmap.md or .continuity/releases/ if release progress changed: not applicable
+- .continuity/product.md, .continuity/architecture.md, .continuity/page-map.md, .continuity/ui.md, .continuity/api.md, or .continuity/decisions/ if changed: not applicable
 
 Do not mark Done until required documentation updates are complete.
 
@@ -745,7 +745,7 @@ Do not mark Done until required documentation updates are complete.
 ## Notes
 ```
 
-## docs/dev-log.md
+## dev-log.md
 
 ```markdown
 ---
@@ -755,7 +755,7 @@ updated: YYYY-MM-DD
 # Dev Log
 
 ## Reading Guide
-- Resume work from docs/STATE.md and the active TASK first; read docs/handoff.md and docs/tasks.md only when STATE.md is missing, stale, or insufficient.
+- Resume work from .continuity/STATE.md and the active TASK first; read .continuity/handoff.md and .continuity/tasks.md only when STATE.md is missing, stale, or insufficient.
 - Use this file only when historical reasons, verification detail, or user feedback chains are needed.
 - Read by topic from the index below instead of loading the whole file by default.
 - Update this guide and index whenever a new durable theme, release, task cluster, or external-state thread appears.
@@ -791,13 +791,13 @@ Gaps / Next:
 - 
 ```
 
-## docs/handoff.md
+## handoff.md
 
 ```markdown
 ---
 updated: YYYY-MM-DD
 current_task: TASK-001
-current_task_file: docs/tasks/TASK-001-example.md
+current_task_file: .continuity/tasks/TASK-001-example.md
 current_release: RELEASE-001
 next_action: wait_for_user_acceptance
 blocked: false
@@ -834,10 +834,10 @@ If `next_action` is `wait_for_owner_approval`, present the pending decision or a
 
 If `next_action` is `wait_for_release_acceptance`, present the active release/phase acceptance table and do not continue feature work unless the user asks for changes.
 
-If the user asks for current progress or next steps, read this file, docs/roadmap.md, the active release/phase file, docs/tasks.md, and the active TASK file before answering.
+If the user asks for current progress or next steps, read this file, .continuity/roadmap.md, the active release/phase file, .continuity/tasks.md, and the active TASK file before answering.
 ```
 
-## docs/api.md
+## api.md
 
 ````markdown
 ---
@@ -882,7 +882,7 @@ Open questions:
 - 
 ````
 
-## docs/decisions/001-example.md
+## decisions/001-example.md
 
 ```markdown
 ---

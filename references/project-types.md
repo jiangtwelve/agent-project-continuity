@@ -14,13 +14,13 @@ Identify the dominant project type before creating docs or tasks:
 - `data_ai`: data pipeline, analytics, ML/AI workflow, evaluation harness, or model/tool integration.
 - `mixed_product`: multiple major surfaces; choose the primary current release surface and record secondary tracks.
 
-Record the selected type in `docs/architecture.md` and, when it changes planning, in `docs/roadmap.md`.
+Record the selected type in `.continuity/architecture.md` and, when it changes planning, in `.continuity/roadmap.md`.
 
 ## Continuity Focus By Type
 
 ### UI Product
 
-Use `docs/product.md`, `docs/page-map.md`, `docs/ui.md`, `docs/api.md`, `docs/roadmap.md`, `docs/tasks.md`, task files, `docs/dev-log.md`, and `docs/handoff.md`.
+Use `.continuity/product.md`, `.continuity/page-map.md`, `.continuity/ui.md`, `.continuity/api.md`, `.continuity/roadmap.md`, `.continuity/tasks.md`, task files, `.continuity/dev-log.md`, and `.continuity/handoff.md`.
 
 Use `references/frontend-continuity.md` for Design Anchor and Design Extension work.
 
@@ -28,13 +28,13 @@ Use `references/frontend-continuity.md` for Design Anchor and Design Extension w
 
 Prioritize:
 
-- service boundaries and runtime commands in `docs/architecture.md`
-- API contracts in `docs/api.md` or `docs/api/`
+- service boundaries and runtime commands in `.continuity/architecture.md`
+- API contracts in `.continuity/api.md` or `.continuity/api/`
 - data model, auth, and integration assumptions
 - contract tests, integration tests, and local verification commands
 - external state protocol when databases, queues, cloud services, or deployments are involved
 
-Do not require `docs/page-map.md` or `docs/ui.md` unless a UI surface exists.
+Do not require `.continuity/page-map.md` or `.continuity/ui.md` unless a UI surface exists.
 
 ### Library/SDK
 

@@ -24,9 +24,9 @@ For WeChat Mini Program projects, account for small screens, scroll behavior, sa
 
 ## Page Map
 
-Before building the Design Anchor or any static frontend prototype, create or update `docs/page-map.md` and ask the user to confirm it. Include pages, route/path, purpose, required features, primary interactions, states, data dependencies, navigation relationships, and Design Anchor choice.
+Before building the Design Anchor or any static frontend prototype, create or update `.continuity/page-map.md` and ask the user to confirm it. Include pages, route/path, purpose, required features, primary interactions, states, data dependencies, navigation relationships, and Design Anchor choice.
 
-Confirm states that affect page structure, navigation, user trust, data entry, permissions, onboarding, or core workflow outcomes. Low-risk display-only states can use sensible defaults recorded in `docs/page-map.md` or `docs/ui.md`.
+Confirm states that affect page structure, navigation, user trust, data entry, permissions, onboarding, or core workflow outcomes. Low-risk display-only states can use sensible defaults recorded in `.continuity/page-map.md` or `.continuity/ui.md`.
 
 ## Style Direction
 
@@ -39,16 +39,16 @@ When available, prefer the `frontend-design` skill for page aesthetics, layout q
 - `Design Anchor`: first core page or flow that establishes visual and interaction direction.
 - `Design Extension`: later pages or flows that extend the accepted visual direction.
 
-After the user accepts a Design Anchor, update `docs/ui.md` with colors, typography, spacing, component patterns, density, form patterns, interaction behavior, copy tone, anchor page path, and explicit "do not" rules where useful.
+After the user accepts a Design Anchor, update `.continuity/ui.md` with colors, typography, spacing, component patterns, density, form patterns, interaction behavior, copy tone, anchor page path, and explicit "do not" rules where useful.
 
 For every Design Extension:
 
-1. Read `docs/ui.md`.
+1. Read `.continuity/ui.md`.
 2. Inspect the accepted anchor page source.
 3. Inspect existing shared components.
 4. Reuse existing base components before creating new ones.
 5. Extend local UI patterns only when needed.
-6. Update `docs/ui.md` when a reusable pattern is added.
+6. Update `.continuity/ui.md` when a reusable pattern is added.
 
 Do not introduce a new global visual direction, palette, typography system, card/list/button/form style, or motion language in a Design Extension without user confirmation.
 
